@@ -54,7 +54,15 @@ app.put("/product/:id", async (req, res) => {
     );
     console.log('Update Successfully..');
     res.redirect('/products');
-})
+});
+
+app.delete("/product/:id",async (req,res)=>{
+    let {id} = req.params;
+    let deleteproduct= await P1.findByIdAndDelete(id);
+    if(!deleteproduct) res.send("product id not found");
+    res.send("product deleted successfully !! ");
+    res.redirect('/products');
+});
 
 const connectdb = async () => {
     await mongoose.connect('mongodb://127.0.0.1:27017/Ecom');
