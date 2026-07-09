@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride =require('method-override')
 
 const app = express();
-const path = require('path');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,6 +17,19 @@ app.get('/products', async (req, res) => {
     let p2 = await P1.find({});
     console.log(p2);
     res.render('index', { p2 });
+})
+
+app.get('/product/new',(req,res)=>{
+    res.render('new');
+})
+
+app.post('/product',async (req,res)=>{
+    let { Pname, Pprice, Pdesc, Prating, Pqty, Pimg } = req.body;
+    await P1.create({
+        name: Pname, price: Pprice, desc: Pdesc, rating: Prating, qty: Pqty, img: Pimg
+    });
+    console.log('Product Added into db');
+    res.redirect('/products');
 })
 
 app.get('/product/:id', async (req, res) => {
@@ -36,7 +49,9 @@ app.get('/product/:id/edit', async (req, res) => {
 
 app.put("/product/:id", async (req, res) => {
     let { Ename, Eprice, Edesc, Erating, Eqty, Eimg } = req.body;
-    await P1.findByIdAndUpdate({ _id: req.params.id }, { name: Ename, price: Eprice, desc: Edesc, rating: Erating, qty: Eqty, img: Eimg });
+    await P1.findByIdAndUpdate({ _id: req.params.id },
+        { name: Ename, price: Eprice, desc: Edesc, rating: Erating, qty: Eqty, img: Eimg }
+    );
     console.log('Update Successfully..');
     res.redirect('/products');
 })

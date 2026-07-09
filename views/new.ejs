@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head>
+<body>
+    <h1>Enter the Product Details</h1>
+    <form action="/product" method="post">
+        <label for="">Name:</label>
+        <input type="text" name="Pname" id="" value="" required>
+        <label for="">Img Url:</label>
+        <input type="text" name="Pimg" id="" value="" required>
+        <label for="">Price:</label>
+        <input type="number" name="Pprice" id="" min="0" value=""  required>
+        <label for="">Quantity:</label>
+        <input type="number" name="Pqty" value="" required>
+        <label for="">Rating:</label>
+        <input type="number" name="Prating" id="" min="1" max="5" value="" required>
+        <label for="">Desc:</label>
+        <input type="text" name="Pdesc" id="" value="" required>
+        <button type="submit">ADD Product</button>
+    </form>
+</body>

@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>List All Products</h1>
+    <h1>List All Products</h1> <button><a href="/product/new">ADD New Product</a></button>
     <article>
         <% p2.map(data=>{ %>
             <section style="height: 400px; width: 250px; border:2px solid red; padding: 10px;">
@@ -19,6 +19,9 @@
                 <br><br>
                 <button><a href="/product/<%=data._id%>">SHOW</a></button>
                 <button><a href="/product/<%=data._id%>/edit">EDIT</a></button>
+                <form action="/product/<%=data.P_id%>?_method=DELETE" method="post">
+                    <Button type="submit">DELETE</Button>
+                </form>
             </section>
         <%})%>
     </article>
