@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>List All Products</h1>
+    <article>
+        <% p2.map(data=>{ %>
+            <section style="height: 400px; width: 250px; border:2px solid red; padding: 10px;">
+                <img src="<%=data.img%>" alt="" height="200" width="240">
+                <h5>Name: <%=data.name %></h5>
+                <h5>Description: <%=data.desc %></h5>
+                <h5>Price: <%=data.price %></h5>
+                <span>Quantity: <%=data.qty %></span>
+                <span>Rating: <%=data.rating %></span>
+                <br><br>
+                <button><a href="/product/<%=data._id%>">SHOW</a></button>
+                <button><a href="/product/<%=data._id%>/edit">EDIT</a></button>
+            </section>
+        <%})%>
+    </article>
+</body>
+</html>
