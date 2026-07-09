@@ -2,28 +2,41 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
-const methodOverride =require('method-override')
+const methodOverride = require('method-override');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 let P1 = require('./db/product');
+let U1 = require('./db/user');
 let product = require('./db/seed');
+
+//register route
+app.post('/register', async (req, res) => {
+    let { rname, pass } = req.body;
+    const salt = await bcrypt.genSaltSync(10);
+    const hash = await bcrypt.hashSync(pass, salt);
+    await U1.create({ username: rname, password: hash });
+    console.log("user registered successfully")
+    res.redirect('/products');
+});
 
 app.get('/products', async (req, res) => {
     let p2 = await P1.find({});
-    console.log(p2);
+    // console.log(p2);
     res.render('index', { p2 });
 })
 
-app.get('/product/new',(req,res)=>{
+app.get('/product/new', (req, res) => {
     res.render('new');
 })
 
-app.post('/product',async (req,res)=>{
+app.post('/product', async (req, res) => {
     let { Pname, Pprice, Pdesc, Prating, Pqty, Pimg } = req.body;
     await P1.create({
         name: Pname, price: Pprice, desc: Pdesc, rating: Prating, qty: Pqty, img: Pimg
@@ -56,11 +69,11 @@ app.put("/product/:id", async (req, res) => {
     res.redirect('/products');
 });
 
-app.delete("/product/:id",async (req,res)=>{
-    let {id} = req.params;
-    let deleteproduct= await P1.findByIdAndDelete(id);
-    if(!deleteproduct) res.send("product id not found");
-    res.send("product deleted successfully !! ");
+app.delete("/product/:id", async (req, res) => {
+    let { id } = req.params;
+    let deleteproduct = await P1.findByIdAndDelete(id);
+    if (!deleteproduct) res.send("product id not found");
+    console.log("product deleted successfully !! ");
     res.redirect('/products');
 });
 
